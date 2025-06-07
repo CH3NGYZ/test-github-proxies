@@ -25,7 +25,7 @@ jobs:
       - name: 🐍 设置 Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: 3.12.7
 
       - name: 📦 安装依赖
         run: |
