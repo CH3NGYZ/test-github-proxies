@@ -5,7 +5,6 @@ on:
   push:
     paths:
       - test.py
-      - testproxies.toml
       - .github/workflows/test-proxies.yml
   schedule:
     - cron: '0 16 * * *'  # 每天 UTC+8 00:00 执行
@@ -22,7 +21,7 @@ jobs:
         run: |
           rm -f proxies.txt log.txt
 
-      - name: 🐍 设置 Python 3.9
+      - name: 🐍 设置 Python 3.12.7
         uses: actions/setup-python@v5
         with:
           python-version: 3.12.7
@@ -37,8 +36,8 @@ jobs:
       - name: 📝 提交 proxies.txt 和 log.txt（若存在）
         run: |
           if [ -f proxies.txt ] && [ -f log.txt ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
             git add proxies.txt log.txt
             git commit -m "Update proxies.txt and log.txt"
             git push
