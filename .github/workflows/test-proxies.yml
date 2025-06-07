@@ -36,10 +36,11 @@ jobs:
       - name: 📝 提交 proxies.txt 和 log.txt（若存在）
         run: |
           if [ -f proxies.txt ] && [ -f log.txt ]; then
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add proxies.txt log.txt
-            git commit -m "Update proxies.txt and log.txt"
+            git commit -m "Update proxies.txt and log.txt from CI run"
             git push
           else
             echo "⚠️ proxies.txt 或 log.txt 不存在，跳过提交"
+          fi
