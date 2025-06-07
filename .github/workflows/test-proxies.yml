@@ -1,0 +1,46 @@
+name: Test GitHub Proxies
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - test.py
+      - testproxies.toml
+      - .github/workflows/test-proxies.yml
+  schedule:
+    - cron: '0 16 * * *'  # 每天 UTC+8 00:00 执行
+
+jobs:
+  test-proxies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 拉取仓库代码
+        uses: actions/checkout@v4
+
+      - name: 🧹 删除旧的 proxies.txt 和 log.txt
+        run: |
+          rm -f proxies.txt log.txt
+
+      - name: 🐍 设置 Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+
+      - name: 📦 安装依赖
+        run: |
+          pip install aiohttp==3.10.5
+
+      - name: 🚀 运行测试脚本
+        run: python test.py
+
+      - name: 📝 提交 proxies.txt 和 log.txt（若存在）
+        run: |
+          if [ -f proxies.txt ] && [ -f log.txt ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add proxies.txt log.txt
+            git commit -m "Update proxies.txt and log.txt"
+            git push
+          else
+            echo "⚠️ proxies.txt 或 log.txt 不存在，跳过提交"
