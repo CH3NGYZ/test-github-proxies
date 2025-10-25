@@ -7,7 +7,7 @@ on:
       - test.py
       - .github/workflows/test-proxies.yml
   schedule:
-    - cron: '0 18 */3 * *'  # 每天 UTC+2 00:00 执行
+    - cron: '0 18 * * *'  # 每天 UTC+2 00:00 执行
 
 jobs:
   test-proxies:
