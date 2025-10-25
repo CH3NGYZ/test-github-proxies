@@ -4,7 +4,7 @@
 功能：
 1. 异步测试多个GitHub镜像代理
 2. 校验文件SHA-256
-3. 过滤低速镜像（默认≥1000KB/s）
+3. 过滤低速镜像（默认≥125KB/s）
 4. 结果写入proxies.txt文件
 5. 输出C#和WPF格式代码
 """
@@ -21,22 +21,42 @@ JS_URL = "https://update.greasyfork.org/scripts/412245/Github%20%E5%A2%9E%E5%BC%
 OUTPUT_FILE = "proxies.txt"
 LOG_FILE = "log.txt"
 PROXIES = [
-    "https://hub.gitmirror.com/https://github.com",
+    "https://gh.monlor.com/https://github.com",
+    "https://gh.jasonzeng.dev/https://github.com",
+    "https://raw.ihtw.moe/github.com",
+    "https://gh.zwy.one/https://github.com",
+    "https://cdn.crashmc.com/https://github.com",
+    "https://fastgit.cc/https://github.com",
+    "https://gh.xx9527.cn/https://github.com",
+    "https://xget.xi-xu.me/gh",
+    "https://down.npee.cn/?https://github.com",
+    "https://ghfile.geekertao.top/https://github.com",
+    "https://ghp.keleyaa.com/https://github.com",
+    "https://github.geekery.cn/https://github.com",
+    "https://wget.la/https://github.com",
     "https://gh-proxy.com/https://github.com",
-    "https://ghproxy.ch3ng.top/https://github.com",
-    "https://ghproxy.cc/https://github.com",
-    "https://ghproxy.cn/https://github.com",
-    "https://www.ghproxy.cn/https://github.com",
-    "https://www.ghproxy.cc/https://github.com",
-    "https://cf.ghproxy.cc/https://github.com",
+    "https://github.tbedu.top/https://github.com",
+    "https://gh.llkk.cc/https://github.com",
+    "https://hk.gh-proxy.com/https://github.com",
+    "https://ghproxy.monkeyray.net/https://github.com",
+    "https://ghproxy.net/https://github.com",
+    "https://hub.glowp.xyz/https://github.com",
+    "https://gh.xxooo.cf/https://github.com",
+    "https://ghfast.top/https://github.com",
+    "https://gitproxy.click/https://raw.githubusercontent.com",
+    "https://gitproxy.click/https://github.com",
+    "https://g.blfrp.cn/https://github.com",
+    "https://github.ednovas.xyz/https://github.com",
+    "https://gh.nxnow.top/https://github.com",
+    "https://gh-proxy.net/https://github.com",
+    "https://ghproxy.1888866.xyz/https://github.com",
+    "https://proxy.yaoyaoling.net/https://github.com",
     "https://github.com",
 ]
 
-ASSET_PATH = (
-    "/CH3NGYZ/small-tailscale-openwrt/releases/download/v1.84.0/tailscaled_linux_amd64"
-)
+ASSET_PATH = "CH3NGYZ/small-tailscale-openwrt/releases/download/v1.78.0/tailscaled-linux-amd64"
 EXPECTED_SHA256 = (
-    "c72db68c9da61da95ca8685b1d42b68bf4072ba206ad91623e892935b763f904".lower()
+    "f4f37bf361c22420a6a7228f4403d3be41a755ccb692045c9d6fd78d564e3764".lower()
 )
 CONCURRENCY_LIMIT = 10
 MIN_SPEED_KBPS = 150
