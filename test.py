@@ -17,6 +17,9 @@ import time
 import aiohttp
 from typing import List, Tuple
 
+from shapely import build_area
+
+
 JS_URL = "https://update.greasyfork.org/scripts/412245/Github%20%E5%A2%9E%E5%BC%BA%20-%20%E9%AB%98%E9%80%9F%E4%B8%8B%E8%BD%BD.user.js"
 OUTPUT_FILE = "proxies.txt"
 LOG_FILE = "log.txt"
@@ -53,15 +56,29 @@ PROXIES = [
     "https://proxy.yaoyaoling.net/https://github.com",
     "https://github.com",
 ]
+ASSET_NAME = "tailscaled-linux-amd64"
+ASSET_PATH = f"CH3NGYZ/small-tailscale-openwrt/releases/download/v1.78.0/{ASSET_NAME}"
+SHA256_URL = "https://raw.githubusercontent.com/CH3NGYZ/small-tailscale-openwrt/releases/download/v1.78.0/SHA256SUM.txt"
 
-ASSET_PATH = "CH3NGYZ/small-tailscale-openwrt/releases/download/v1.78.0/tailscaled-linux-amd64"
-EXPECTED_SHA256 = (
-    "f4f37bf361c22420a6a7228f4403d3be41a755ccb692045c9d6fd78d564e3764".lower()
-)
+async def fetch_sha256():
+    async with aiohttp.ClientSession() as session:
+        async with session.get(SHA256_URL) as resp:
+            if resp.status != 200:
+                raise Exception(f"Failed to fetch SHA256SUM.txt: {resp.status}")
+            text = await resp.text()
+
+            for line in text.splitlines():
+                # 找到 tailscaled-linux-amd64 且排除 tailscaled-linux-amd64.build
+                if ASSET_NAME in line and ASSET_NAME + ".build" not in line:
+                    expected_sha256 = line.split()[0].lower()
+                    return expected_sha256
+    raise Exception(f"{ASSET_NAME} not found in SHA256SUM.txt")
+
+
 CONCURRENCY_LIMIT = 10
 MIN_SPEED_KBPS = 150
 TIMEOUT = int(7168 / MIN_SPEED_KBPS)
-
+SHA256 = ""
 
 async def fetch_and_extract_proxies(js_url: str) -> List[str]:
     """获取代理列表"""
@@ -98,6 +115,7 @@ async def check_mirror(
 async def _check_mirror_core(
     session: aiohttp.ClientSession, url: str, base: str
 ) -> Tuple[str, float] | None:
+    global SHA256
     start = time.time()
     async with session.get(url) as resp:
         resp.raise_for_status()
@@ -112,7 +130,7 @@ async def _check_mirror_core(
         elapsed = time.time() - start
         speed = total / 1024 / elapsed if elapsed > 0 else 0
 
-        if digest == EXPECTED_SHA256:
+        if digest == SHA256:
             status = "✅成功" if speed >= MIN_SPEED_KBPS else "⚠️低速"
             print(f"[{status}] {url.ljust(60)} {speed:>7.2f} KB/s")
             return (base, speed) if speed >= MIN_SPEED_KBPS else None
@@ -165,7 +183,7 @@ async def main():
     print(
         f"开始时间: {test_date} | 最低速度: {MIN_SPEED_KBPS} KB/s | TIMEOUT: {TIMEOUT}s\n"
     )
-
+    SHA256 = await fetch_sha256()
     # 获取代理列表
     custom_proxies = await fetch_and_extract_proxies(JS_URL)
     proxies = custom_proxies if custom_proxies else PROXIES
