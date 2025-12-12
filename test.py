@@ -134,14 +134,14 @@ def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         for url, _ in results:
             f.write(f"{url}\n")
-        f.write("https://gh.ch3ng.top/https://github.com\n")
+        f.write("https://gh.ch3ng.top\n")
         f.write("https://github.com\n")
 
     # oc2proxies.txt（使用 oc2gh.ch3ng.top）
     with open(OUTPUT_FILE_OC2, "w", encoding="utf-8") as f:
         for url, _ in results:
             f.write(f"{url}\n")
-        f.write("https://oc2gh.ch3ng.top/https://github.com\n")
+        f.write("https://oc2gh.ch3ng.top\n")
         f.write("https://github.com\n")
 
     # log
@@ -151,24 +151,21 @@ def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
         f.write("# 原始代理列表 (按速度降序)\n")
         for url, speed in results:
             f.write(f"{url} # {speed:.2f} KB/s\n")
-        f.write("https://gh.ch3ng.top/https://github.com # 自建代理\n")
-        f.write("https://oc2gh.ch3ng.top/https://github.com # 自建OC2代理\n")
+        f.write("https://oc2gh.ch3ng.top # 自建OC2代理\n")
         f.write("https://github.com # 直连\n")
         f.write("=" * 60)
         f.write("\n# C#格式\n")
         f.write("private static readonly string[] proxyList = [\n")
         for url, speed in results:
             f.write(f'    "{url}",  // {speed:.2f} KB/s\n')
-        f.write('    "https://gh.ch3ng.top/https://github.com", //自建代理\n')
-        f.write('    "https://oc2gh.ch3ng.top/https://github.com", //OC2代理\n')
+        f.write('    "https://oc2gh.ch3ng.top", //OC2代理\n')
         f.write('    "https://github.com", //直连\n')
         f.write("];\n")
         f.write("=" * 60)
         f.write("\n# WPF格式\n")
         for url, _ in results:
             f.write(f'<ComboBoxItem Content="{url}"/>\n')
-        f.write('<ComboBoxItem Content="https://gh.ch3ng.top/https://github.com"/>\n')
-        f.write('<ComboBoxItem Content="https://oc2gh.ch3ng.top/https://github.com"/>\n')
+        f.write('<ComboBoxItem Content="https://oc2gh.ch3ng.top"/>\n')
         f.write('<ComboBoxItem Content="https://github.com"/>\n')
         f.write("=" * 60)
 
