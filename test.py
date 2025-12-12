@@ -5,7 +5,7 @@
 1. 异步测试多个 GitHub 镜像代理
 2. 校验文件 SHA-256
 3. 过滤低速镜像（默认≥150KB/s）
-4. 结果写入 proxies.txt 文件
+4. 结果写入 proxies.txt 和 oc2proxies.txt
 5. 输出 C# 和 WPF 格式代码
 """
 
@@ -20,6 +20,7 @@ import aiohttp
 
 JS_URL = "https://update.greasyfork.org/scripts/412245/Github%20%E5%A2%9E%E5%BC%BA%20-%20%E9%AB%98%E9%80%9F%E4%B8%8B%E8%BD%BD.user.js"
 OUTPUT_FILE = "proxies.txt"
+OUTPUT_FILE_OC2 = "oc2proxies.txt"
 LOG_FILE = "log.txt"
 
 PROXIES = [
@@ -66,7 +67,6 @@ TIMEOUT = int(7168 / MIN_SPEED_KBPS)
 
 
 async def fetch_sha256() -> str:
-    """获取指定 release 的 SHA256"""
     async with aiohttp.ClientSession() as session:
         async with session.get(SHA256_URL) as resp:
             if resp.status != 200:
@@ -79,7 +79,6 @@ async def fetch_sha256() -> str:
 
 
 async def fetch_and_extract_proxies(js_url: str) -> List[str]:
-    """获取代理列表"""
     print(f"[*] 下载代理列表: {js_url}")
     async with aiohttp.ClientSession() as session:
         try:
@@ -93,13 +92,7 @@ async def fetch_and_extract_proxies(js_url: str) -> List[str]:
             return []
 
 
-async def check_mirror(
-    session: aiohttp.ClientSession,
-    sem: asyncio.Semaphore,
-    base: str,
-    expected_sha256: str,
-) -> Optional[Tuple[str, float]]:
-    """测试单个镜像"""
+async def check_mirror(session, sem, base, expected_sha256):
     url = f"{base.rstrip('/')}/{ASSET_PATH}"
     async with sem:
         try:
@@ -113,9 +106,7 @@ async def check_mirror(
         return None
 
 
-async def _check_mirror_core(
-    session: aiohttp.ClientSession, url: str, base: str, expected_sha256: str
-) -> Optional[Tuple[str, float]]:
+async def _check_mirror_core(session, url, base, expected_sha256):
     start = time.time()
     async with session.get(url) as resp:
         resp.raise_for_status()
@@ -139,13 +130,21 @@ async def _check_mirror_core(
 
 
 def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
-    """将结果写入文件"""
+    # proxies.txt
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         for url, _ in results:
             f.write(f"{url}\n")
         f.write("https://gh.ch3ng.top/https://github.com\n")
         f.write("https://github.com\n")
 
+    # oc2proxies.txt（使用 oc2gh.ch3ng.top）
+    with open(OUTPUT_FILE_OC2, "w", encoding="utf-8") as f:
+        for url, _ in results:
+            f.write(f"{url}\n")
+        f.write("https://oc2gh.ch3ng.top/https://github.com\n")
+        f.write("https://github.com\n")
+
+    # log
     with open(LOG_FILE, "w", encoding="utf-8") as f:
         f.write(f"# GitHub镜像代理测速结果 ({test_date})\n")
         f.write(f"# 最低速度要求: {MIN_SPEED_KBPS} KB/s\n\n")
@@ -153,6 +152,7 @@ def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
         for url, speed in results:
             f.write(f"{url} # {speed:.2f} KB/s\n")
         f.write("https://gh.ch3ng.top/https://github.com # 自建代理\n")
+        f.write("https://oc2gh.ch3ng.top/https://github.com # 自建OC2代理\n")
         f.write("https://github.com # 直连\n")
         f.write("=" * 60)
         f.write("\n# C#格式\n")
@@ -160,15 +160,15 @@ def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
         for url, speed in results:
             f.write(f'    "{url}",  // {speed:.2f} KB/s\n')
         f.write('    "https://gh.ch3ng.top/https://github.com", //自建代理\n')
+        f.write('    "https://oc2gh.ch3ng.top/https://github.com", //OC2代理\n')
         f.write('    "https://github.com", //直连\n')
         f.write("];\n")
         f.write("=" * 60)
         f.write("\n# WPF格式\n")
         for url, _ in results:
             f.write(f'<ComboBoxItem Content="{url}"/>\n')
-        f.write(
-            '<ComboBoxItem Content="https://gh.ch3ng.top/https://github.com"/>\n'
-        )
+        f.write('<ComboBoxItem Content="https://gh.ch3ng.top/https://github.com"/>\n')
+        f.write('<ComboBoxItem Content="https://oc2gh.ch3ng.top/https://github.com"/>\n')
         f.write('<ComboBoxItem Content="https://github.com"/>\n')
         f.write("=" * 60)
 
@@ -176,9 +176,7 @@ def write_results_to_file(results: List[Tuple[str, float]], test_date: str):
 async def main():
     test_date = datetime.now().strftime("%Y.%m.%d")
     print(f"\n{' GitHub镜像测速工具 ':=^80}")
-    print(
-        f"开始时间: {test_date} | 最低速度: {MIN_SPEED_KBPS} KB/s | TIMEOUT: {TIMEOUT}s\n"
-    )
+    print(f"开始时间: {test_date} | 最低速度: {MIN_SPEED_KBPS} KB/s | TIMEOUT: {TIMEOUT}s\n")
 
     expected_sha256 = await fetch_sha256()
     custom_proxies = await fetch_and_extract_proxies(JS_URL)
@@ -190,14 +188,12 @@ async def main():
         tasks = [check_mirror(session, sem, p, expected_sha256) for p in proxies]
         results = await asyncio.gather(*tasks)
 
-    success_list = [
-        res for res in results if isinstance(res, tuple) and res is not None
-    ]
+    success_list = [res for res in results if isinstance(res, tuple) and res is not None]
     success_list.sort(key=lambda x: -x[1])
 
     if success_list:
         write_results_to_file(success_list, test_date)
-        print(f"\n[+] 结果已保存到 {OUTPUT_FILE}")
+        print(f"\n[+] 结果已保存到 {OUTPUT_FILE} 和 {OUTPUT_FILE_OC2}")
     else:
         print("\n[!] 没有找到符合条件的镜像")
 
