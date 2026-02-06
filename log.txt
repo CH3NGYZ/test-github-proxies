@@ -1,103 +1,100 @@
-# GitHub镜像代理测速结果 (2026.02.05)
+# GitHub镜像代理测速结果 (2026.02.06)
 # 最低速度要求: 150 KB/s
 
 # 原始代理列表 (按速度降序)
-https://raw.ihtw.moe/github.com # 29415.07 KB/s
-https://gh.jasonzeng.dev/https://github.com # 24399.20 KB/s
-https://cdn.crashmc.com/https://github.com # 22690.59 KB/s
-https://gh.monlor.com/https://github.com # 20696.67 KB/s
-https://cdn.gh-proxy.org/https://github.com # 20130.13 KB/s
-https://edgeone.gh-proxy.org/https://github.com # 19321.14 KB/s
-https://fastgit.cc/https://github.com # 18279.57 KB/s
-https://ghproxy.it/https://github.com # 16822.77 KB/s
-https://gh-proxy.org/https://github.com # 14396.36 KB/s
-https://down.npee.cn/?https://github.com # 14037.03 KB/s
-https://ghfile.geekertao.top/https://github.com # 12857.34 KB/s
-https://gh-proxy.net/https://github.com # 12821.25 KB/s
-https://hk.gh-proxy.org/https://github.com # 10989.19 KB/s
-https://github.tbedu.top/https://github.com # 10938.23 KB/s
-https://github.geekery.cn/https://github.com # 9839.42 KB/s
-https://gh.ddlc.top/https://github.com # 9716.00 KB/s
-https://gh.zwy.one/https://github.com # 9306.54 KB/s
-https://gh.xxooo.cf/https://github.com # 8675.49 KB/s
-https://gh.llkk.cc/https://github.com # 7635.07 KB/s
-https://ghfast.top/https://github.com # 5664.52 KB/s
-https://ghproxy.net/https://github.com # 5239.55 KB/s
-https://github.ednovas.xyz/https://github.com # 5004.60 KB/s
-https://ghproxy.monkeyray.net/https://github.com # 3685.92 KB/s
-https://git.yylx.win/https://github.com # 3571.54 KB/s
-https://g.blfrp.cn/https://github.com # 2302.17 KB/s
-https://gh.nxnow.top/https://github.com # 1976.11 KB/s
-https://wget.la/https://github.com # 1940.89 KB/s
-https://hub.glowp.xyz/https://github.com # 423.48 KB/s
-https://proxy.yaoyaoling.net/https://github.com # 288.65 KB/s
+https://raw.ihtw.moe/github.com # 18491.46 KB/s
+https://cdn.gh-proxy.org/https://github.com # 17041.56 KB/s
+https://gh.jasonzeng.dev/https://github.com # 17005.11 KB/s
+https://fastgit.cc/https://github.com # 16389.80 KB/s
+https://edgeone.gh-proxy.org/https://github.com # 15660.89 KB/s
+https://gh.monlor.com/https://github.com # 15208.98 KB/s
+https://down.npee.cn/?https://github.com # 14690.98 KB/s
+https://github.geekery.cn/https://github.com # 14219.31 KB/s
+https://ghproxy.it/https://github.com # 14011.93 KB/s
+https://gh-proxy.org/https://github.com # 13633.93 KB/s
+https://cdn.crashmc.com/https://github.com # 11819.77 KB/s
+https://gh.zwy.one/https://github.com # 10737.53 KB/s
+https://ghfile.geekertao.top/https://github.com # 10283.45 KB/s
+https://gh-proxy.net/https://github.com # 9107.08 KB/s
+https://gh.llkk.cc/https://github.com # 8794.51 KB/s
+https://github.tbedu.top/https://github.com # 8727.24 KB/s
+https://hk.gh-proxy.org/https://github.com # 8248.10 KB/s
+https://ghproxy.monkeyray.net/https://github.com # 7229.23 KB/s
+https://gh.ddlc.top/https://github.com # 6683.89 KB/s
+https://gh.nxnow.top/https://github.com # 6217.26 KB/s
+https://git.yylx.win/https://github.com # 6020.22 KB/s
+https://gh.xxooo.cf/https://github.com # 6005.00 KB/s
+https://ghfast.top/https://github.com # 5171.15 KB/s
+https://ghproxy.net/https://github.com # 4521.54 KB/s
+https://github.ednovas.xyz/https://github.com # 4329.43 KB/s
+https://g.blfrp.cn/https://github.com # 2817.19 KB/s
+https://wget.la/https://github.com # 2160.25 KB/s
+https://proxy.yaoyaoling.net/https://github.com # 274.51 KB/s
 https://oc2gh.ch3ng.top # 自建OC2代理
 https://github.com # 直连
 ============================================================
 # C#格式
 private static readonly string[] proxyList = [
-    "https://raw.ihtw.moe/github.com",  // 29415.07 KB/s
-    "https://gh.jasonzeng.dev/https://github.com",  // 24399.20 KB/s
-    "https://cdn.crashmc.com/https://github.com",  // 22690.59 KB/s
-    "https://gh.monlor.com/https://github.com",  // 20696.67 KB/s
-    "https://cdn.gh-proxy.org/https://github.com",  // 20130.13 KB/s
-    "https://edgeone.gh-proxy.org/https://github.com",  // 19321.14 KB/s
-    "https://fastgit.cc/https://github.com",  // 18279.57 KB/s
-    "https://ghproxy.it/https://github.com",  // 16822.77 KB/s
-    "https://gh-proxy.org/https://github.com",  // 14396.36 KB/s
-    "https://down.npee.cn/?https://github.com",  // 14037.03 KB/s
-    "https://ghfile.geekertao.top/https://github.com",  // 12857.34 KB/s
-    "https://gh-proxy.net/https://github.com",  // 12821.25 KB/s
-    "https://hk.gh-proxy.org/https://github.com",  // 10989.19 KB/s
-    "https://github.tbedu.top/https://github.com",  // 10938.23 KB/s
-    "https://github.geekery.cn/https://github.com",  // 9839.42 KB/s
-    "https://gh.ddlc.top/https://github.com",  // 9716.00 KB/s
-    "https://gh.zwy.one/https://github.com",  // 9306.54 KB/s
-    "https://gh.xxooo.cf/https://github.com",  // 8675.49 KB/s
-    "https://gh.llkk.cc/https://github.com",  // 7635.07 KB/s
-    "https://ghfast.top/https://github.com",  // 5664.52 KB/s
-    "https://ghproxy.net/https://github.com",  // 5239.55 KB/s
-    "https://github.ednovas.xyz/https://github.com",  // 5004.60 KB/s
-    "https://ghproxy.monkeyray.net/https://github.com",  // 3685.92 KB/s
-    "https://git.yylx.win/https://github.com",  // 3571.54 KB/s
-    "https://g.blfrp.cn/https://github.com",  // 2302.17 KB/s
-    "https://gh.nxnow.top/https://github.com",  // 1976.11 KB/s
-    "https://wget.la/https://github.com",  // 1940.89 KB/s
-    "https://hub.glowp.xyz/https://github.com",  // 423.48 KB/s
-    "https://proxy.yaoyaoling.net/https://github.com",  // 288.65 KB/s
+    "https://raw.ihtw.moe/github.com",  // 18491.46 KB/s
+    "https://cdn.gh-proxy.org/https://github.com",  // 17041.56 KB/s
+    "https://gh.jasonzeng.dev/https://github.com",  // 17005.11 KB/s
+    "https://fastgit.cc/https://github.com",  // 16389.80 KB/s
+    "https://edgeone.gh-proxy.org/https://github.com",  // 15660.89 KB/s
+    "https://gh.monlor.com/https://github.com",  // 15208.98 KB/s
+    "https://down.npee.cn/?https://github.com",  // 14690.98 KB/s
+    "https://github.geekery.cn/https://github.com",  // 14219.31 KB/s
+    "https://ghproxy.it/https://github.com",  // 14011.93 KB/s
+    "https://gh-proxy.org/https://github.com",  // 13633.93 KB/s
+    "https://cdn.crashmc.com/https://github.com",  // 11819.77 KB/s
+    "https://gh.zwy.one/https://github.com",  // 10737.53 KB/s
+    "https://ghfile.geekertao.top/https://github.com",  // 10283.45 KB/s
+    "https://gh-proxy.net/https://github.com",  // 9107.08 KB/s
+    "https://gh.llkk.cc/https://github.com",  // 8794.51 KB/s
+    "https://github.tbedu.top/https://github.com",  // 8727.24 KB/s
+    "https://hk.gh-proxy.org/https://github.com",  // 8248.10 KB/s
+    "https://ghproxy.monkeyray.net/https://github.com",  // 7229.23 KB/s
+    "https://gh.ddlc.top/https://github.com",  // 6683.89 KB/s
+    "https://gh.nxnow.top/https://github.com",  // 6217.26 KB/s
+    "https://git.yylx.win/https://github.com",  // 6020.22 KB/s
+    "https://gh.xxooo.cf/https://github.com",  // 6005.00 KB/s
+    "https://ghfast.top/https://github.com",  // 5171.15 KB/s
+    "https://ghproxy.net/https://github.com",  // 4521.54 KB/s
+    "https://github.ednovas.xyz/https://github.com",  // 4329.43 KB/s
+    "https://g.blfrp.cn/https://github.com",  // 2817.19 KB/s
+    "https://wget.la/https://github.com",  // 2160.25 KB/s
+    "https://proxy.yaoyaoling.net/https://github.com",  // 274.51 KB/s
     "https://oc2gh.ch3ng.top", //OC2代理
     "https://github.com", //直连
 ];
 ============================================================
 # WPF格式
 <ComboBoxItem Content="https://raw.ihtw.moe/github.com"/>
-<ComboBoxItem Content="https://gh.jasonzeng.dev/https://github.com"/>
-<ComboBoxItem Content="https://cdn.crashmc.com/https://github.com"/>
-<ComboBoxItem Content="https://gh.monlor.com/https://github.com"/>
 <ComboBoxItem Content="https://cdn.gh-proxy.org/https://github.com"/>
-<ComboBoxItem Content="https://edgeone.gh-proxy.org/https://github.com"/>
+<ComboBoxItem Content="https://gh.jasonzeng.dev/https://github.com"/>
 <ComboBoxItem Content="https://fastgit.cc/https://github.com"/>
+<ComboBoxItem Content="https://edgeone.gh-proxy.org/https://github.com"/>
+<ComboBoxItem Content="https://gh.monlor.com/https://github.com"/>
+<ComboBoxItem Content="https://down.npee.cn/?https://github.com"/>
+<ComboBoxItem Content="https://github.geekery.cn/https://github.com"/>
 <ComboBoxItem Content="https://ghproxy.it/https://github.com"/>
 <ComboBoxItem Content="https://gh-proxy.org/https://github.com"/>
-<ComboBoxItem Content="https://down.npee.cn/?https://github.com"/>
+<ComboBoxItem Content="https://cdn.crashmc.com/https://github.com"/>
+<ComboBoxItem Content="https://gh.zwy.one/https://github.com"/>
 <ComboBoxItem Content="https://ghfile.geekertao.top/https://github.com"/>
 <ComboBoxItem Content="https://gh-proxy.net/https://github.com"/>
-<ComboBoxItem Content="https://hk.gh-proxy.org/https://github.com"/>
-<ComboBoxItem Content="https://github.tbedu.top/https://github.com"/>
-<ComboBoxItem Content="https://github.geekery.cn/https://github.com"/>
-<ComboBoxItem Content="https://gh.ddlc.top/https://github.com"/>
-<ComboBoxItem Content="https://gh.zwy.one/https://github.com"/>
-<ComboBoxItem Content="https://gh.xxooo.cf/https://github.com"/>
 <ComboBoxItem Content="https://gh.llkk.cc/https://github.com"/>
+<ComboBoxItem Content="https://github.tbedu.top/https://github.com"/>
+<ComboBoxItem Content="https://hk.gh-proxy.org/https://github.com"/>
+<ComboBoxItem Content="https://ghproxy.monkeyray.net/https://github.com"/>
+<ComboBoxItem Content="https://gh.ddlc.top/https://github.com"/>
+<ComboBoxItem Content="https://gh.nxnow.top/https://github.com"/>
+<ComboBoxItem Content="https://git.yylx.win/https://github.com"/>
+<ComboBoxItem Content="https://gh.xxooo.cf/https://github.com"/>
 <ComboBoxItem Content="https://ghfast.top/https://github.com"/>
 <ComboBoxItem Content="https://ghproxy.net/https://github.com"/>
 <ComboBoxItem Content="https://github.ednovas.xyz/https://github.com"/>
-<ComboBoxItem Content="https://ghproxy.monkeyray.net/https://github.com"/>
-<ComboBoxItem Content="https://git.yylx.win/https://github.com"/>
 <ComboBoxItem Content="https://g.blfrp.cn/https://github.com"/>
-<ComboBoxItem Content="https://gh.nxnow.top/https://github.com"/>
 <ComboBoxItem Content="https://wget.la/https://github.com"/>
-<ComboBoxItem Content="https://hub.glowp.xyz/https://github.com"/>
 <ComboBoxItem Content="https://proxy.yaoyaoling.net/https://github.com"/>
 <ComboBoxItem Content="https://oc2gh.ch3ng.top"/>
 <ComboBoxItem Content="https://github.com"/>
