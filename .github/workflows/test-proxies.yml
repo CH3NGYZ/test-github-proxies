@@ -21,14 +21,14 @@ jobs:
         run: |
           rm -f proxies.txt oc2proxies.txt log.txt
 
-      - name: 🐍 设置 Python 3.12.7
+      - name: 🐍 设置 Python 3.14
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12.7
+          python-version: 3.14
 
       - name: 📦 安装依赖
         run: |
-          pip install aiohttp==3.10.5
+          pip install aiohttp
 
       - name: 🚀 运行测试脚本
         run: python test.py
