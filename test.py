@@ -67,10 +67,13 @@ TIMEOUT = int(7168 / MIN_SPEED_KBPS)
 
 
 async def fetch_sha256() -> str:
-    async with aiohttp.ClientSession() as session:
+    timeout = aiohttp.ClientTimeout(total=30)
+    async with aiohttp.ClientSession(
+        timeout=timeout,
+        max_field_size=16384,
+    ) as session:
         async with session.get(SHA256_URL) as resp:
-            if resp.status != 200:
-                raise Exception(f"Failed to fetch SHA256SUMS.txt: {resp.status}")
+            resp.raise_for_status()
             text = await resp.text()
             for line in text.splitlines():
                 if ASSET_NAME in line and ASSET_NAME + ".build" not in line:
